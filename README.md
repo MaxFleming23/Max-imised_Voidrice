@@ -1,49 +1,53 @@
-# The Voidrice (Luke Smith <https://lukesmith.xyz>'s dotfiles)
+# Max-imised_Voidrice (Max Fleming <https://maxfleming.xyz>'s dotfiles)
 
-These are the dotfiles deployed by [LARBS](https://larbs.xyz) and as seen on
-[my YouTube channel](https://youtube.com/c/lukesmithxyz).
 
-- Very useful scripts are in `~/.local/bin/`
-- Settings for:
-	- vim/nvim (text editor)
-	- zsh (shell)
-	- lf (file manager)
-	- mpd/ncmpcpp (music)
-	- nsxiv (image/gif viewer)
-	- mpv (video player)
-	- other stuff like xdg default programs, inputrc and more, etc.
-- I try to minimize what's directly in `~` so:
-	- All configs that can be in `~/.config/` are.
-	- Some environmental variables have been set in `~/.zprofile` to move configs into `~/.config/`
-- Bookmarks in text files used by various scripts (like `~/.local/bin/shortcuts`)
-	- File bookmarks in `~/.config/shell/bm-files`
-	- Directory bookmarks in `~/.config/shell/bm-dirs`
+These are my dotfiles, based on Luke Smith's [Voidrice](https://github.com/LukeSmithxyz/voidrice), to be deployed by [LARBS](https://larbs.xyz).
 
-## Usage
+Main Addititions:
+- **VSCodium** + extensions: *VS Code without MS branding/telemetry/licensing*
+	- General Enhancements:
+		- file-icons: *File-specific icons in the editor.*
+		- obsidian-dark: *Dark theme for VSCodium.*
+		- markdown-all-in-one: *All-in-one Markdown support.*
+		- code-spell-checker: *Spell checker for code.*
+	- **Python**: Assorted extensions including jupyter support
+	- **LaTeX**:
+		- latex-snippets-jeff: *LaTeX snippets for faster coding.*
+		- latex-workshop: *Comprehensive LaTeX support.*
+	- Other Languages:
+		- octaveexecution: Octave language support.
+- **Thunderbird**: *Libre email client ...or you could always wrestle with Mutt ;)*
+- **Obsidian**: *Knowledge management working on top of local Markdown files ...NON-LIBRE!!!*
+- **LibreOffice-Fresh**: *Libre office suite.*
+- **Syncthing**: *For cross-pc file syncing*
+- **Transmission-cli**: *lightweight CLI torrent client.*
+- **Rclone**: *CLI program to manage traditional cloud storage.*
 
-These dotfiles are intended to go with numerous suckless programs I use:
+Smaller Packages:
+- **neofetch**: *Displays system information in a visually appealing way.*
+- **vrms-arch-git**: *Reports non-free packages installed on Arch Linux.*
+- **gotop**: *A terminal-based graphical activity monitor writen in go.*
+- **zathura-djvu**: *A DjVu plugin for the Zathura document viewer.*
+- **djvulibre**: *A software suite for creating and viewing DjVu documents.*
+- **gnome-epub-thumbnailer**: *Generates thumbnails for EPUB files.*
+- **imagemagick**: *A software suite for creating, editing, and converting images.*
+- **odt2txt**: *Converts OpenDocument texts to plain texts.*
+- **rsync**: *A fast file copying and synchronization tool.*
+- **oath-toolkit**: *Provides tools for OATH-based two-factor authentication.*
+- **networkmanager**: *Manages network connections.*
 
-- [dwm](https://github.com/lukesmithxyz/dwm) (window manager)
-- [dwmblocks](https://github.com/lukesmithxyz/dwmblocks) (statusbar)
-- [st](https://github.com/lukesmithxyz/st) (terminal emulator)
 
-I also recommend trying out
-[mutt-wizard](https://github.com/lukesmithxyz/mutt-wizard), which additionally
-works with this setup. It gives you an easy-to-install terminal-based email
-client regardless of your email provider. It is integrated into these dotfiles
-as well.
+## Installation
 
-## Install these dotfiles and all dependencies
-
-Use [LARBS](https://larbs.xyz) to autoinstall everything:
+Modify the [LARBS](https://larbs.xyz) script:
 
 ```
 curl -LO larbs.xyz/larbs.sh
 ```
 
-or clone the repo files directly to your home directory and install the
-[dependencies](https://github.com/LukeSmithxyz/LARBS/blob/master/static/progs.csv).
+Setting:
 
-## Default Desktop Artwork
-
-Thomas Thiemeyer's *The Road to Samarkand* ([fb](https://www.facebook.com/t.thiemeyer/), [insta](https://www.instagram.com/tthiemeyer/), [shop](https://www.redbubble.com/de/people/TThiemeyer/shop))
+```
+dotfilesrepo="https://github.com/MaxFleming23/Max-imised_Voidrice.git"
+progsfile="https://github.com/MaxFleming23/Max-imised_Voidrice/blob/master/progs.csv"
+```
