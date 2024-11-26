@@ -57,6 +57,11 @@ image/svg+xml)
 		;;
 	application/*zip) atool --list -- "$1" ;;
 	*opendocument*) odt2txt "$1" ;;
+	application/vnd.openxmlformats-officedocument.wordprocessingml.document) pandoc -s -t markdown "$1" ;;
+	application/vnd.openxmlformats-officedocument.spreadsheetml.sheet)
+	    TMPFILE=$(mktemp --suffix=.csv)
+	    ssconvert "$1" "$TMPFILE" && column -t -s, "$TMPFILE" | head -n 20 && rm "$TMPFILE"
+	;;
 	application/pgp-encrypted) gpg -d -- "$1" ;;
 esac
 exit 1
