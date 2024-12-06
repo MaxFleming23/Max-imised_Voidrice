@@ -1,37 +1,77 @@
 #!/bin/sh
 
-# Prints all batteries, their percentage remaining and an emoji corresponding
-# to charge status (🔌 for plugged up, 🔋 for discharging on battery, etc.).
+# Path to the battery log CSV file
+log_file="$HOME/.local/share/battery_log.csv"
+chartfile="$HOME/.local/share/battery_chart.txt"
+
+# Function to generate the battery percentage graph
+generate_graph() {
+    gnuplot <<- EOF
+        set datafile separator ","
+        set xdata time
+        set timefmt "%Y-%m-%d %H:%M:%S"
+        set format x "%H:%M\n%m-%d"
+        set terminal dumb size 200, 50
+        set title "Battery Percentage History (Last 7 Days)"
+        set xlabel "Time"
+        set ylabel "Battery Percentage"
+        set grid
+        set output "$chartfile"
+        set xrange [*:*]
+        set x2range [*:*]
+        plot "$log_file" using 1:2 with lines title 'Battery %'
+EOF
+}
 
 case $BLOCK_BUTTON in
-	3) notify-send "🔋 Battery module" "🔋: discharging
+    1) generate_graph && setsid "$TERMINAL" -e less -Srf "$chartfile" ;;
+    3) notify-send "🔋 Battery module" "🔋: discharging
 🛑: not charging
-♻: stagnant charge
+♻️: stagnant charge
 🔌: charging
 ⚡: charged
 ❗: battery very low!
 - Scroll to change adjust xbacklight." ;;
 	4) xbacklight -inc 10 ;;
 	5) xbacklight -dec 10 ;;
-	6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+    6) "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
+
+# Get the current date and time
+datetime=$(date +"%Y-%m-%d %H:%M:%S")
+
+# Get the date 7 days ago
+startdate=$(date -d '7 days ago' +"%Y-%m-%d %H:%M:%S")
+
+# Filter the log file to only include the last 7 days
+temp_log_file=$(mktemp)
+awk -F, -v start="$startdate" '$1 >= start' "$log_file" > "$temp_log_file"
+mv "$temp_log_file" "$log_file"
 
 # Loop through all attached batteries and format the info
 for battery in /sys/class/power_supply/BAT?*; do
-	# If non-first battery, print a space separator.
-	[ -n "${capacity+x}" ] && printf " "
-	# Sets up the status and capacity
-	case "$(cat "$battery/status" 2>&1)" in
-		"Full") status="⚡" ;;
-		"Discharging") status="🔋" ;;
-		"Charging") status="🔌" ;;
-		"Not charging") status="🛑" ;;
-		"Unknown") status="♻️" ;;
-		*) exit 1 ;;
-	esac
-	capacity="$(cat "$battery/capacity" 2>&1)"
-	# Will make a warn variable if discharging and low
-	[ "$status" = "🔋" ] && [ "$capacity" -le 25 ] && warn="❗"
-	# Prints the info
-	printf "%s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+    # If non-first battery, print a space separator.
+    [ -n "${capacity+x}" ] && printf " "
+    # Sets up the status and capacity
+    case "$(cat "$battery/status" 2>&1)" in
+        "Full") status="⚡" ;;
+        "Discharging") status="🔋" ;;
+        "Charging") status="🔌" ;;
+        "Not charging") status="🛑" ;;
+        "Unknown") status="♻️" ;;
+        *) exit 1 ;;
+    esac
+    capacity="$(cat "$battery/capacity" 2>&1)"
+    # Will make a warn variable if discharging and low
+    [ "$status" = "🔋" ] && [ "$capacity" -le 25 ] && warn="❗"
+    # Prints the info
+    printf "%s%s%d%%" "$status" "$warn" "$capacity"; unset warn
+
+    # Append the date, time, and capacity to the CSV file
+    echo "$datetime,$capacity%" >> "$log_file"
+
+    # Send notification when battery is at 10%, 5%, and 1%
+    [ "$capacity" -eq 10 ] && notify-send "$capacity"
+    [ "$capacity" -le 5 ] && notify-send "$capacity"
+
 done && printf "\\n"
