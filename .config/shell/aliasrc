@@ -29,6 +29,7 @@ alias \
 	yt="yt-dlp --embed-metadata -i" \
 	yta="yt -x -f bestaudio/best" \
 	ytt="yt --skip-download --write-thumbnail" \
+	ytp="yt --embed-subs --sub-langs all --embed-chapters --merge-output-format mp4 -o '%(playlist_title)s/%(playlist_index)s - %(title)s.%(ext)s' --progress" \
 	ffmpeg="ffmpeg -hide_banner"
 
 # Colorize commands when possible.
