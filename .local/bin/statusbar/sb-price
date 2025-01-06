@@ -20,7 +20,7 @@ case "$denom" in
 	eur) symb="€" ;;
 	btc) symb="" ;;
 esac
-interval="@14d"	# History contained in chart preceded by '@' (7d = 7 days)
+interval="@3d"	# History contained in chart preceded by '@' (7d = 7 days)
 dir="${XDG_CACHE_HOME:-$HOME/.cache}/crypto-prices"
 pricefile="$dir/$target-$denom"
 chartfile="$dir/$target-$denom-chart"
