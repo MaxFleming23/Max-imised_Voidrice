@@ -19,6 +19,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'ap/vim-css-color'
+Plug 'lervag/vimtex'
 call plug#end()
 
 set title
@@ -33,6 +34,23 @@ set laststatus=0
 set noshowcmd
 colorscheme vim
 highlight Comment ctermfg=2 guifg=#228B22
+
+
+" General vimtex settings
+let g:vimtex_view_method = 'zathura' " Replace 'zathura' with your preferred PDF viewer
+let g:vimtex_compiler_engine = 'lualatex'
+let g:vimtex_compiler_method = 'latexmk' " Use latexmk for auto-compilation
+let g:vimtex_compiler_latexmk = {
+      \ 'build_dir' : 'build',
+      \ 'executable' : 'latexmk',
+      \ 'options' : [
+      \   '-lualatex',
+      \   '-interaction=nonstopmode',
+      \   '-synctex=1',
+      \ ],
+      \}
+autocmd BufWritePost *.tex silent! !latexmk -c
+autocmd VimLeave *.tex silent! !latexmk -c
 
 
 " Some basics:
