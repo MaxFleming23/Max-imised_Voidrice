@@ -32,6 +32,8 @@ set noruler
 set laststatus=0
 set noshowcmd
 colorscheme vim
+highlight Comment ctermfg=2 guifg=#228B22
+
 
 " Some basics:
 	nnoremap c "_c
